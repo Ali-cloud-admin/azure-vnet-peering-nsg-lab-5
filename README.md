@@ -5,51 +5,70 @@ Configure and validate Network Security Groups (NSGs) in peered VNets to enforce
 Specifically, allow SSH connectivity while denying ICMP (ping) traffic between VMs.
 
 ## ⚙️ Resources Deployed
-- Resource Group: rg-vnet-peering-lab
-- Virtual Networks: vnet-lab-a, vnet-lab-b
-- Subnets: subnet-a, subnet-b
-- NSGs: nsg-a, nsg-b
-- VMs: Vm01, Vm02 (Ubuntu Linux)
+| Resource Type | Name | Purpose |
+|---|---|---|
+| Resource Group | rg-vnet-peering-lab | Logical container for networking resources |
+| Virtual Network A | vnet-lab-a | Primary virtual network |
+| Virtual Network B | vnet-lab-b | Secondary virtual network |
+| Subnet A | subnet-a | Subnet associated with NSG-A |
+| Subnet B | subnet-b | Subnet associated with NSG-B |
+| Network Security Group A | nsg-a | Controls inbound traffic for subnet-a |
+| Network Security Group B | nsg-b | Controls inbound traffic for subnet-b |
+| Virtual Machine 1 | Vm01 | Ubuntu Linux VM used for SSH and connectivity validation |
+| Virtual Machine 2 | Vm02 | Ubuntu Linux VM used for ICMP validation |
+
+## Deployment Scope
+This lab focused on configuring Azure Network Security Groups (NSGs) within peered VNets to control network traffic using inbound security rules. Connectivity validation was performed using SSH and ICMP testing between Ubuntu virtual machines.
 
 ## 📸 Screenshots
 
-**NSG Creation**  
-Successfully created two NSGs (`nsg-a` and `nsg-b`) in the resource group.  
-![NSG Creation](NsgA+NsgB-Creation.png)
+**NSG Deployment**  
+Provisioned Network Security Groups for both virtual networks using Azrue PowerShell.
+![NSG Creation](assets/NsgA+NsgB-Creation.png)
 
-**NSG Rule Configuration (nsg-a)**  
-Added inbound rules:  
-- Allow-SSH (TCP/22, Priority 100)  
-- Deny-ICMP (Priority 200)  
-![NSG-A Rules](NsgA-Rules.png)
+**NSG Rule Configuration for NSG-A**  
+Configured inbound security rules to allow SSH traffic and deny ICMP traffic.
+![NSG-A Rules](assets/NsgA-Rules.png)
 
-**NSG Rule Configuration (nsg-b)**  
-Added inbound rules:  
-- Allow-SSH (TCP/22, Priority 100)  
-- Deny-ICMP (Priority 200)  
-![NSG-B Rules](NsgB-Rules.png)
+**NSG Rule Configuration for NSG-B**  
+Configured inbound security rules to allow SSH traffic and deny ICMP traffic.
+![NSG-B Rules](assets/NsgB-Rules.png)
 
-**Subnet Configuration**  
-Attached NSGs to their respective subnets in `vnet-lab-a` and `vnet-lab-b`.  
-![Subnet Configuration](Assigned-Both-Nsg's-to-Subnets.png)
+**Subnet Association**  
+Associated Network Security Groups with their respective subnets.
+![Subnet Configuration](assets/Assigned-Both-Nsg's-to-Subnets.png)
 
-**SSH Connection to Vm01**  
-Successfully connected to Vm01 via SSH as per the NSG allow rule.  
-![SSH Vm01](SSH-connect-Success.png)
+**SSH Connectivity Validation**  
+Validated successful SSH connectivity to Vm01 through the configured NSG rules.
+![SSH Vm01](assets/SSH-connect-Success.png)
 
-**Ping Test to Vm02**  
-Ping from Vm01 to Vm02 failed with 100% packet loss, confirming Deny-ICMP rule enforcement.  
-![Ping Failure](ICMP-Deny-rule-working.png)
+**ICMP Traffic Restricition Validation**  
+Verified ICMP traffic restriction between virtual machines using ping testing.
+![Ping Failure](assets/ICMP-Deny-rule-working.png)
 
----
+## Operational Validation
+ 
+- Verified successful deployment of Network Security Groups in both VNets.
+- Confirmed subnet association with respective NSGs.
+- Validated SSH connectivity between virtual machines.
+- Confirmed ICMP traffic blocking through Deny-ICMP NSG rules.
+- Verified traffic filtering behavior using Linux networking commands.
+
+## Troubleshooting and Observations
+| Scenario | Observation | Resolution |
+|---|---|---|
+| SSH connectivity test | SSH access succeeded between virtual machines | NSG allow rule for TCP port 22 validated successfully |
+| ICMP connectivity test | Ping requests failed with 100% packet loss | Deny-ICMP rule enforcement confirmed successfully |
 
 ## 📚 Key Learnings
-- How to create and configure NSGs with PowerShell.  
-- How to apply rules to control traffic (Allow-SSH, Deny-ICMP).  
-- How to attach NSGs to subnets in VNets.  
-- How to validate connectivity across peered VNets using SSH and ping tests.  
+- Configured Azure Network Security Groups using Azure PowerShell.
+- Implemented inbound security rules to control SSH and ICMP traffic.
+- Associated NSGs with Azure subnets for traffic filtering.
+- Validated network connectivity using SSH and Linux networking commands.
+- Improved understanding of Azure network security policy enforcement.
 
-## 📌 Resume Bullets
-- Configured Azure VNets with NSGs to enforce traffic policies.  
-- Implemented rules to allow SSH while blocking ICMP traffic.  
-- Validated connectivity across peered VNets using PowerShell and Linux commands.  
+## 📌 Resume Alignment
+- Configured Azure Network Security Groups and subnet associations using Azure PowerShell.
+- Implemented inbound security policies to allow SSH access while blocking ICMP traffic.
+- Validated network traffic enforcement across peered Azure VNets using Linux connectivity testing.
+- Demonstrated Azure network segmentation and traffic control implementation.
